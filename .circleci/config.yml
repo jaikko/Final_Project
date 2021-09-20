@@ -27,15 +27,13 @@ jobs:
       #     command: |
       #       . venv/bin/activate
       #       flake8
-      - setup_remote_docker:
-          docker_layer_caching: true
       - run:
           name: Build and push Docker image
           command: |
             . venv/bin/activate
-            docker build -t final app/$IMAGE_NAME:$TAG .
+            docker build -t final_app/$IMAGE_NAME:$TAG .
             echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
-            docker push ariv3ra/$IMAGE_NAME:$TAG
+            docker push final_app/$IMAGE_NAME:$TAG
 
 # workflows:
 #   version: 2
