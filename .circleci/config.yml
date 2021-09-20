@@ -25,10 +25,10 @@ jobs:
           command: |
             . venv/bin/activate
             pytest
+
       - run:
           name: Build and push Docker image
           command: |
-            . venv/bin/activate
             make build
 
 # workflows:
