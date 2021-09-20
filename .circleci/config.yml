@@ -1,18 +1,7 @@
-# workflows:
-#   version: 2
-#   build-deploy:
-#     jobs:
-#       - build
-#       - deploy:
-#           requires:
-#             - build
-#           filters:
-#             branches:
-#               only: master
 
 version: 2
 jobs:
-  build:
+  first:
     docker:
       - image: circleci/python:3.6
         auth:
@@ -45,7 +34,7 @@ jobs:
             docker build -t jaykoo/final_app:$TAG .
             echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
             docker push jaykoo/final_app:$TAG
-  deploy:
+  second:
     machine: true
     steps:
       - checkout
@@ -59,4 +48,15 @@ jobs:
           command: |
             cd app/
             git push heroku master
+
+workflows:
+  version: 2
+  fist-job:
+    jobs:
+      - first
+      - second:
+          requires:
+            - first
+
+
           
