@@ -59,10 +59,9 @@ workflows: # Define a Workflow running the build job, then the deploy job
    build-deploy:
      jobs:
        - build
-       - deploy
-      #  - deploy:
-      #      requires:
-      #        - build
-      #      filters:
-      #        branches:
-      #          only: master # Only deploys when the commit is on the Master branch
+       - deploy:
+           requires:
+             - build
+           filters:
+             branches:
+               only: master # Only deploys when the commit is on the Master branch
