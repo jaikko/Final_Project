@@ -24,10 +24,6 @@ workflows:
       - second-job:
           requires:
             - first-job
-          filters:
-            branches:
-              only:
-                - /.*special/
       - third-job:
           requires:
             - first-job
