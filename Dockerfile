@@ -9,7 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # activate env
-RUN . venv/bin/activate
+RUN ./venv/bin/activate
 
 # copy project
 COPY . .
