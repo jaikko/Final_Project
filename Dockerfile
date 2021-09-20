@@ -8,12 +8,16 @@ WORKDIR /final_project
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# activate env
+RUN . venv/bin/activate
+
 # copy project
 COPY . .
 
 # install dependencies
 RUN pip install --upgrade pip 
 RUN pip install -r requirements.txt
+
 
 
 EXPOSE 8000
