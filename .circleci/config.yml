@@ -54,14 +54,14 @@ jobs:
             sleep 5 # sleep for 5 seconds to wait for dynos
             heroku restart
 
-workflows: # Define a Workflow running the build job, then the deploy job
-   version: 2
-   build-deploy:
-     jobs:
-       - build
-       - deploy:
-           requires:
-             - build
-           filters:
-             branches:
-               only: master # Only deploys when the commit is on the Master branch
+# workflows: # Define a Workflow running the build job, then the deploy job
+#    version: 2
+#    build-deploy:
+#      jobs:
+#        - build
+#        - deploy:
+#            requires:
+#              - build
+#            filters:
+#              branches:
+#                only: master # Only deploys when the commit is on the Master branch
