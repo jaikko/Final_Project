@@ -6,16 +6,16 @@ orbs:
 workflows:
   heroku_deploy:
     jobs:
-      - build
+      - builds
       - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
           requires:
-            - build
+            - builds
           filters:
             branches:
               only: master
 
 jobs:
-  build:
+  builds:
     docker:
       - image: circleci/python:3.6
         auth:
