@@ -29,6 +29,7 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
+            sudo dockerd
             docker build -t final_app . 
 
 # workflows:
