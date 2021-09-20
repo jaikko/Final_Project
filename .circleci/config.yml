@@ -47,6 +47,9 @@ jobs:
             echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
             docker push jaykoo/final_app:$TAG
   deploy:
+    machine:
+      enabled: true
+    working_directory: ~/my_app
     environment:
       HEROKU_APP: $HEROKU_APP # define env var $HEROKU_APP
     steps:
