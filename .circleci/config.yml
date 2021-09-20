@@ -3,6 +3,9 @@ jobs:
   build:
     docker:
       - image: circleci/python:3.6
+        auth:
+          username: jaykoo
+          password: $My-Pass  # context / project UI env-var reference
     steps:
       - checkout
       - restore_cache:
