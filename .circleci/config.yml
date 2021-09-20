@@ -5,7 +5,7 @@ jobs:
       - image: circleci/python:3.6
         auth:
           username: jaykoo
-          password: $My-Pass  # context / project UI env-var reference
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
       - restore_cache:
