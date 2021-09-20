@@ -22,6 +22,8 @@ workflows:
     jobs:
       - first-job
       - second-job:
+          requires:
+            - first-job
           filters:
             branches:
               only:
