@@ -15,7 +15,7 @@ COPY . .
 RUN pip install --upgrade pip 
 RUN pip install -r requirements.txt
 
-RUN . /venv/bin/activate
+RUN ./venv/bin/activate
 
 
 
