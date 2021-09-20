@@ -13,7 +13,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # copy project
-COPY . .
+COPY requirements.txt .
 
 
 # RUN /opt/venv/bin/pip 
