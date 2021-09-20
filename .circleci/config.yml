@@ -52,5 +52,6 @@ jobs:
 workflows:
   build_and_test:
     jobs:
-      - build_push_docker_image
       - test
+      - build_push_docker_image
+      
