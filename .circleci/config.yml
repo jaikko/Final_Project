@@ -30,8 +30,8 @@ jobs:
           name: Build and push Docker image
           command: |
             TAG=0.1$CIRCLE_BUILD_NUM
-            docker build -t adrine/app:$TAG .
-            docker push adrien/app:$TAG
+            docker build -t final_app:$TAG .
+            docker push fianl_app:$TAG
 
 # workflows:
 #   version: 2
