@@ -16,7 +16,7 @@ ENV PYTHONUNBUFFERED 1
 COPY . .
 
 
-RUN /opt/venv/bin/pip 
+# RUN /opt/venv/bin/pip 
 
 # install dependencies
 RUN pip install --upgrade pip 
