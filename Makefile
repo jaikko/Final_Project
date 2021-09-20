@@ -1,4 +1,4 @@
-NAME   := acmecorp/foo
+NAME   := final_app
 TAG    := $$(git log -1 --pretty=%!H(MISSING))
 IMG    := ${NAME}:${TAG}
 LATEST := ${NAME}:latest
