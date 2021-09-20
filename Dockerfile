@@ -1,8 +1,8 @@
 # pull the official base image
 FROM python:3.8.3-alpine
 
-# # set work directory
-# WORKDIR /final_project
+# set work directory
+WORKDIR /final_project
 
 RUN python3 -m venv /opt/venv
 
@@ -14,15 +14,15 @@ ENV PYTHONUNBUFFERED 1
 COPY . .
 
 
-RUN ./venv/bin/activate
+RUN /opt/venv/bin/pip 
 
 # install dependencies
 RUN pip install --upgrade pip 
-RUN pip install -r requirements.txt
+RUN /opt/venv/bin/pip install -r requirements.txt
 
 
 
 
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/opt/venv/bin/python", "python", "manage.py", "runserver", "0.0.0.0:8000"]
