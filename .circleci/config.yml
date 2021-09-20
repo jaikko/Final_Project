@@ -4,8 +4,8 @@ jobs:
     docker:
       - image: circleci/python:3.6
         auth:
-          username: adrien.gutleben@gmail.com
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+          username: $DOCKER_HUB_USERNAME
+          password: $DOCKER_HUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
       - restore_cache:
