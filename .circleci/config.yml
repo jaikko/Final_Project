@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build_test:
     docker:
       - image: circleci/python:3.6
     steps:
@@ -21,6 +21,31 @@ jobs:
           command: |
             . venv/bin/activate
             pytest
-      - store_artifacts:
-          path: test-reports/
-          destination: python_app
+  build_push_docker_image:
+    docker:
+        - image: circleci/python:3.6
+    steps:
+        - checkout
+        - restore_cache:
+            key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+        - run:
+            command: |
+              python3 -m venv venv
+              . venv/bin/activate
+              pip install -r requirements.txt
+        - save_cache:
+            key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+            paths:
+              - "venv"
+        - setup_remote_docker
+        - docker/check
+        - docker/build:
+            image: $DOCKER_LOGIN/$CIRCLE_PROJECT_REPONAME
+            extra_build_args: "-t $DOCKER_LOGIN/$CIRCLE_PROJECT_REPONAME"
+            tag: 0.1.<< pipeline.number >>             
+        - docker/push:
+            image: $DOCKER_LOGIN/$CIRCLE_PROJECT_REPONAME
+            tag: "latest"
+        - docker/push:
+            image: $DOCKER_LOGIN/$CIRCLE_PROJECT_REPONAME
+            tag: "0.1.<< pipeline.number >>"
