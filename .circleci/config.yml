@@ -31,9 +31,9 @@ jobs:
           name: Build and push Docker image
           command: |
             . venv/bin/activate
-            docker build -t final_app/$IMAGE_NAME:$TAG .
+            docker build -t ariv3ra/$IMAGE_NAME:$TAG .
             echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
-            docker push final_app/$IMAGE_NAME:$TAG
+            docker push ariv3ra/$IMAGE_NAME:$TAG
 
 # workflows:
 #   version: 2
