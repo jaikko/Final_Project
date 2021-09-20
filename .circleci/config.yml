@@ -1,62 +1,10 @@
-
-version: 2
-jobs:
-  first:
-    docker:
-      - image: circleci/python:3.6
-        auth:
-          username: $DOCKER_HUB_USERNAME
-          password: $DOCKER_HUB_PASSWORD  # context / project UI env-var reference
-    steps:
-      - checkout
-      - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-      - run:
-          name: Setup env and install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
-      - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - "venv"
-      - run:
-          name: Running tests
-          command: |
-            . venv/bin/activate
-            pytest
-      - setup_remote_docker
-      - run:
-          name: Build and push Docker image
-          command: |
-            TAG=0.1$CIRCLE_BUILD_NUM
-            docker build -t jaykoo/final_app:$TAG .
-            echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
-            docker push jaykoo/final_app:$TAG
-  second:
-    machine: true
-    steps:
-      - checkout
-      - run:
-          name: Setup Heroku
-          command: |
-            chmod +x .circleci/setup-heroku.sh
-            .circleci/setup-heroku.sh
-      - run:
-          name: Deploy to Heroku
-          command: |
-            cd app/
-            git push heroku master
-
+version: 2.1
+orbs:
+  heroku: circleci/heroku@0.0.10
 workflows:
-  version: 2
-  fist-job:
+  heroku_deploy:
     jobs:
-      - first
-      - second:
-          requires:
-            - first
+      - heroku/deploy-via-git
 
 
           
