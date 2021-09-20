@@ -1,4 +1,5 @@
 version: 2
+
 jobs:
   build:
     docker:
@@ -33,21 +34,21 @@ jobs:
             docker build -t jaykoo/final_app:$TAG .
             echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
             docker push jaykoo/final_app:$TAG
-
-  
   deploy:
+    docker:
+      - image: circleci/python:3.6
     machine:
       enabled: true
-    working_directory: ~/circleci-demo-workflows
+    working_directory: ~/my_app
     environment:
       HEROKU_APP: $HEROKU_APP # define env var $HEROKU_APP
     steps:
-      - checkout
-      - run:
-          name: Setup Heroku
-          command: bash .circleci/setup-heroku.sh # run a script to set up Heroku
+    - checkout
+    - run:
+        name: Setup Heroku
+        command: bash .circleci/setup-heroku.sh # run a script to set up Heroku
 
-      - run:
+    - run:
           command: |
             git push heroku sequential-branch-filter:master
             heroku run rake db:migrate
