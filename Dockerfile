@@ -1,5 +1,5 @@
 # pull the official base image
-FROM python:3.7-alpine
+FROM python:3.8
 
 # set work directory
 # WORKDIR /final_project
