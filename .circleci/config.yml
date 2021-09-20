@@ -34,8 +34,7 @@ jobs:
           name: Build and push Docker image
           command: |
             . venv/bin/activate
-            make build
-            make push
+            make build push
 
 # workflows:
 #   version: 2
