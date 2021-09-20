@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build_test:
+  test:
     docker:
       - image: circleci/python:3.6
     steps:
@@ -49,3 +49,8 @@ jobs:
         - docker/push:
             image: $DOCKER_LOGIN/$CIRCLE_PROJECT_REPONAME
             tag: "0.1.<< pipeline.number >>"
+workflows:
+  build_and_test:
+    jobs:
+      - build
+      - test
