@@ -1,8 +1,10 @@
 # pull the official base image
 FROM python:3.8.3-alpine
 
-# set work directory
-WORKDIR /final_project
+# # set work directory
+# WORKDIR /final_project
+
+RUN python3 -m venv /opt/venv
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
