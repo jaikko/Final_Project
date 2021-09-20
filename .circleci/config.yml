@@ -1,55 +1,32 @@
-# workflows:
-#   version: 2
-#   build-deploy:
-#     jobs:
-#       - build
-#       - deploy:
-#           requires:
-#             - build
-#           filters:
-#             branches:
-#               only: master
+version: 2.1
 
-version: 2
 jobs:
-  build:
+  first-job:
     docker:
-      - image: circleci/python:3.6
-        auth:
-          username: $DOCKER_HUB_USERNAME
-          password: $DOCKER_HUB_PASSWORD  # context / project UI env-var reference
+      - image: ubuntu
     steps:
-      - checkout
-      - restore_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-      - run:
-          name: Setup env and install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r requirements.txt
-      - save_cache:
-          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-          paths:
-            - "venv"
-      - run:
-          name: Running tests
-          command: |
-            . venv/bin/activate
-            pytest
-      - setup_remote_docker
-      - run:
-          name: Build and push Docker image
-          command: |
-            TAG=0.1$CIRCLE_BUILD_NUM
-            docker build -t jaykoo/final_app:$TAG .
-            echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
-            docker push jaykoo/final_app:$TAG
-  deploy:
-    machine: true
+      - run: echo "this is the first job"
+  second-job:
+    docker:
+      - image: ubuntu
     steps:
-      - checkout
-      - run:
-          name: Deploy Master to Heroku
-          command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+      - run: echo "this is the second job"
+  third-job:
+    docker:
+      - image: ubuntu
+    steps:
+      - run: echo "this is the third job"
+
+workflows:
+  first-workflow:
+    jobs:
+      - first-job
+      - second-job:
+          filters:
+            branches:
+              only:
+                - /.*special/
+      - third-job:
+          requires:
+            - first-job
+            - second-job
