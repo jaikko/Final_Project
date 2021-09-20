@@ -1,5 +1,17 @@
 version: 2
 
+workflows: # Define a Workflow running the build job, then the deploy job
+   version: 2
+   build-deploy:
+     jobs:
+       - build
+       - deploy:
+           requires:
+             - build
+           filters:
+             branches:
+               only: master # Only deploys when the commit is on the Master branch
+
 jobs:
   build:
     docker:
@@ -35,11 +47,6 @@ jobs:
             echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
             docker push jaykoo/final_app:$TAG
   deploy:
-    docker:
-      - image: circleci/python:3.6
-    machine:
-      enabled: true
-    working_directory: ~/my_app
     environment:
       HEROKU_APP: $HEROKU_APP # define env var $HEROKU_APP
     steps:
@@ -54,15 +61,3 @@ jobs:
             heroku run rake db:migrate
             sleep 5 # sleep for 5 seconds to wait for dynos
             heroku restart
-
-workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: sequential-branch-filter
