@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
-            make build
+            docker build -t final_app . 
 
 # workflows:
 #   version: 2
