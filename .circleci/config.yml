@@ -6,7 +6,10 @@ orbs:
 workflows:
   heroku_deploy:
     jobs:
-      - test
+      - test:
+          filters:
+            branches:
+              only: sequential-branch-filter
       - build_and_push:
           requires:
             - test
