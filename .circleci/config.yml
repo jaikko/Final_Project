@@ -47,7 +47,7 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
-            TAG=0.1$CIRCLE_BUILD_NUM
+            TAG=${CIRCLE_SHA1:0:10}
             docker build -t jaykoo/final_app:$TAG .
             echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
             docker push jaykoo/final_app:$TAG
