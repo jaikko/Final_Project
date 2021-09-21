@@ -9,7 +9,7 @@ workflows:
       - test:
           filters:
             branches:
-              only: sequential-branch-filter
+              only: circleci-editor/master
       - build_and_push:
           requires:
             - test
