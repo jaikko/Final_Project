@@ -6,14 +6,14 @@ orbs:
 workflows:
   heroku_deploy:
     jobs:
-      - test
-      - build_and_push:
-          requires:
-            - test
-      - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
-          requires:
-            - test
-            - build_and_push
+      # - test
+      - build_and_push
+          # requires:
+          #   - test
+      # - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
+      #     requires:
+      #       - test
+      #       - build_and_push
 
 jobs:
   test:
@@ -51,6 +51,6 @@ jobs:
           name: Build and push Docker image
           command: |
             TAG=0.1$CIRCLE_BUILD_NUM
-            docker build -t jaykoo/final_app:$TAG ./Dockerfile .
+            docker build -t jaykoo/final_app:$TAG -f Dockerfile.txt .
             echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
             docker push jaykoo/final_app:$TAG
