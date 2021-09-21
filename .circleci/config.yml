@@ -42,9 +42,9 @@ jobs:
   build_and_push:
     docker:
       - image: circleci/python:3.6
-        auth:
-          username: $DOCKER_HUB_USERNAME
-          password: $DOCKER_HUB_PASSWORD  # context / project UI env-var reference
+        # auth:
+        #   username: $DOCKER_HUB_USERNAME
+        #   password: $DOCKER_HUB_PASSWORD  # context / project UI env-var reference
     steps:
       - setup_remote_docker
       - run:
