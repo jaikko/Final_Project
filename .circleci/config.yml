@@ -6,19 +6,18 @@ orbs:
 workflows:
   heroku_deploy:
     jobs:
-      - build
+      - test
+      - build_and_push:
+          requires:
+            - test
       - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
           requires:
-            - build
-        
+            - test
+            - build_and_push
 
 jobs:
-  build:
-    docker:
-      - image: circleci/python:3.6
-        auth:
-          username: $DOCKER_HUB_USERNAME
-          password: $DOCKER_HUB_PASSWORD  # context / project UI env-var reference
+  test:
+    machine: true
     steps:
       - checkout
       - restore_cache:
@@ -38,6 +37,14 @@ jobs:
           command: |
             . venv/bin/activate
             pytest
+  
+  build_and_push:
+    docker:
+      - image: circleci/python:3.6
+        auth:
+          username: $DOCKER_HUB_USERNAME
+          password: $DOCKER_HUB_PASSWORD  # context / project UI env-var reference
+    steps:
       - setup_remote_docker
       - run:
           name: Build and push Docker image
@@ -46,5 +53,3 @@ jobs:
             docker build -t jaykoo/final_app:$TAG .
             echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
             docker push jaykoo/final_app:$TAG
-
-          
