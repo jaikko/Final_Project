@@ -17,7 +17,8 @@ workflows:
 
 jobs:
   test:
-    machine: true
+    docker:
+    - image: circleci/python:3.6
     steps:
       - checkout
       - restore_cache:
@@ -25,10 +26,8 @@ jobs:
       - run:
           name: Setup env and install dependencies
           command: |
-            pyenv install 3.5.2 -f
-            python3 --version
-            pyenv virtualenv 3.5.2 venv
-            pyenv activate venv
+            python3 -m venv venv
+            . venv/bin/activate
             pip install -r requirements.txt
       - save_cache:
           key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
