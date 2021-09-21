@@ -6,14 +6,13 @@ orbs:
 workflows:
   heroku_deploy:
     jobs:
-      # - test
-      - build_and_push
-          # requires:
-          #   - test
-      # - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
-      #     requires:
-      #       - test
-      #       - build_and_push
+      - test
+      - build_and_push:
+          requires:
+            - test
+      - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
+          requires:
+            - build_and_push
 
 jobs:
   test:
@@ -42,9 +41,6 @@ jobs:
   build_and_push:
     docker:
       - image: circleci/python:3.6
-        # auth:
-        #   username: $DOCKER_HUB_USERNAME
-        #   password: $DOCKER_HUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
       - setup_remote_docker
