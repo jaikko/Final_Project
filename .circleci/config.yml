@@ -26,7 +26,6 @@ jobs:
           name: Setup env and install dependencies
           command: |
             pyenv install 3.5.2 -f
-            pyenv local 3.5.2
             python3 --version
             pyenv virtualenv 3.5.2 venv
             pyenv activate venv
