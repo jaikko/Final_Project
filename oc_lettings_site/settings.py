@@ -1,9 +1,25 @@
 import os
 import django_heroku
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+# Sentry
+sentry_sdk.init(
+    dsn="https://74dd60dbdb2c4eadb9a55de80a4855be@o1009246.ingest.sentry.io/5973815",
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
