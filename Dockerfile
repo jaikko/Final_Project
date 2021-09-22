@@ -2,7 +2,7 @@
 FROM python:3.8
 
 # set work directory
-WORKDIR /final_project
+# WORKDIR /final_project
 
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
@@ -14,9 +14,6 @@ ENV PYTHONUNBUFFERED 1
 
 # copy project
 COPY . .
-
-
-# RUN /opt/venv/bin/pip 
 
 # install dependencies
 RUN pip install --upgrade pip 
