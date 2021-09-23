@@ -17,6 +17,8 @@ class TestProfiles:
         rv = client.get(url)
         assert rv.status_code == 200
         assert '<title>Profiles</title>' in rv.content.decode('utf-8')
+        assert 'john' in rv.content.decode('utf-8')
+        assert '<a href="/profiles/john/">' in rv.content.decode('utf-8')
 
     def test_profile(self, client):
         url = reverse('profiles:profile', args=['john'])
