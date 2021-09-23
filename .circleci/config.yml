@@ -48,6 +48,8 @@ jobs:
             pytest
   
   build_and_push:
+    environment:
+      - SECRET_KEY=(test)
     docker:
       - image: circleci/python:3.6
     steps:
