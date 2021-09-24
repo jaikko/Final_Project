@@ -7,9 +7,6 @@ workflows:
   heroku_deploy:
     jobs:
       - test:
-          filters:
-            branches:
-              ignore: master
       - build_and_push:
           requires:
             - test
@@ -19,6 +16,15 @@ workflows:
       - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
           requires:
             - build_and_push
+          post-steps:
+            - run: 
+              command: |
+                python manage.py makemigrations
+                python manage.py migrate
+
+          pre-steps:
+            - run: heroku apps:create $HEROKU_APP_NAME
+          
           # filters:
           #   branches:
           #     only: master
