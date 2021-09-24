@@ -46,9 +46,9 @@ jobs:
       - run:
           name: Deploy
           command: |
-            heroku container:login
-            heroku container:push web -a ${HEROKU_APP_NAME} web --recursive
-            heroku container:release -a ${HEROKU_APP_NAME} web 
+            docker login --username=$HEROKU_LOGIN --password-stdin=$HEROKU_API_KEY registry.heroku.com
+            docker tag jaykoo/final_app:${CIRCLE_SHA1:0:10} registry.heroku.com/$HEROKU_APP_NAME/web
+            docker push registry.heroku.com/$HEROKU_APP_NAME/web
         
 workflows:
   heroku_deploy:
