@@ -66,6 +66,7 @@ jobs:
   deploy:
     executor: heroku/default
     steps:
+      - run: bash .circleci/setup-heroku.sh
       - checkout
       - add_ssh_keys:
           fingerprints:
