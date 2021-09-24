@@ -65,7 +65,7 @@ jobs:
       - run:
           name: Deploy
           command: |
-            docker login --username=$HEROKU_LOGIN -- password=$HEROKU_API_KEY registry.heroku.com
+            docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com
             docker tag myapp/app:$CIRCLE_SHA1 registry.heroku.com/$HEROKU_APP_NAME/web
             docker push registry.heroku.com/$HEROKU_APP_NAME/web
         
