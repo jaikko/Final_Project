@@ -3,28 +3,7 @@ version: 2.1
 orbs:
   heroku: circleci/heroku@1.0.1
 
-workflows:
-  heroku_deploy:
-    jobs:
-      - test
-      - build_and_push:
-          requires:
-            - test
-          # filters:
-          #   branches:
-          #     only: master
-      # - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
-      #     requires:
-      #       - build_and_push
-          # filters:
-          #   branches:
-          #     only: master
-      # - deploy:
-      #     requires:
-      #       - build_and_push
-          # filters:
-          #   branches:
-          #     only: master
+
 
 jobs:
   test:
@@ -55,6 +34,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      
       - run:
           name: Build and push Docker image
           command: |
@@ -62,6 +42,7 @@ jobs:
             docker build -t jaykoo/final_app:$TAG .
             echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
             docker push jaykoo/final_app:$TAG
+      - heroku/install
       - run:
           name: Deploy
           command: |
@@ -69,4 +50,25 @@ jobs:
             docker tag jaykoo/final_app:${CIRCLE_SHA1:0:10} registry.heroku.com/$HEROKU_APP_NAME/web
             docker push registry.heroku.com/$HEROKU_APP_NAME/web
         
-         
+workflows:
+  heroku_deploy:
+    jobs:
+      - test
+      - build_and_push:
+          requires:
+            - test
+          # filters:
+          #   branches:
+          #     only: master
+      # - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
+      #     requires:
+      #       - build_and_push
+          # filters:
+          #   branches:
+          #     only: master
+      # - deploy:
+      #     requires:
+      #       - build_and_push
+          # filters:
+          #   branches:
+          #     only: master
