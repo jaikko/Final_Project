@@ -6,7 +6,7 @@ orbs:
 workflows:
   heroku_deploy:
     jobs:
-      - test:
+      - test
       - build_and_push:
           requires:
             - test
@@ -17,10 +17,7 @@ workflows:
           requires:
             - build_and_push
           post-steps:
-            - run: 
-              command: |
-                python manage.py makemigrations
-                python manage.py migrate
+            - run: python manage.py makemigrations & python manage.py migrate
 
           pre-steps:
             - run: heroku apps:create $HEROKU_APP_NAME
