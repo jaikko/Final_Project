@@ -19,9 +19,9 @@ workflows:
           # filters:
           #   branches:
           #     only: master
-      - deploy:
-          requires:
-            - build_and_push
+      # - deploy:
+      #     requires:
+      #       - build_and_push
           # filters:
           #   branches:
           #     only: master
@@ -49,7 +49,6 @@ jobs:
           command: |
             . venv/bin/activate
             pytest
-  
   build_and_push:
     docker:
       - image: circleci/python:3.6
@@ -63,14 +62,11 @@ jobs:
             docker build -t jaykoo/final_app:$TAG .
             echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
             docker push jaykoo/final_app:$TAG
-  deploy:
-    executor: heroku/default
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - '48:a0:87:54:ca:75:32:12:c6:9e:a2:77:a4:7a:08:a4'
-      - heroku/install
-      - heroku/deploy-via-git:
-          force: true
-
+      - run:
+          name: Deploy
+          command: |
+            docker login --username=$HEROKU_LOGIN -- password=$HEROKU_API_KEY registry.heroku.com
+            docker tag myapp/app:$CIRCLE_SHA1 registry.heroku.com/$HEROKU_APP_NAME/web
+            docker push registry.heroku.com/$HEROKU_APP_NAME/web
+        
+         
