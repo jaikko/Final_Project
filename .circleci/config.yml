@@ -74,3 +74,4 @@ jobs:
       - heroku/install
       - heroku/deploy-via-git:
           force: true
+
