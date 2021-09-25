@@ -53,7 +53,7 @@ jobs:
             command: |
             
               echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
-              heroku repo:purge_cache -a jaykoo/${HEROKU_APP_NAME}
+              heroku builds:cache:purge -a jaykoo/${HEROKU_APP_NAME}
               heroku container:login
               heroku apps
               HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a jaykoo/${HEROKU_APP_NAME} --recursive
