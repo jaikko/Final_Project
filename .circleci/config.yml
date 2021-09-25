@@ -37,9 +37,9 @@ jobs:
           name: Build and push Docker image
           command: |
             TAG=${CIRCLE_SHA1:0:10}
-            docker build -t jaykoo/${HEROKU_APP_NAME}:$TAG .
+            docker build -t ${HEROKU_APP_NAME}:$TAG .
             echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
-            docker push jaykoo/${HEROKU_APP_NAME}:$TAG
+            docker push ${HEROKU_APP_NAME}:$TAG
       
   deploy-dev:
     machine: true
@@ -51,8 +51,8 @@ jobs:
               sudo curl https://cli-assets.heroku.com/install.sh | sh
               heroku container:login
               heroku auth:token
-              HEROKU_API_KEY=$HEROKU_API_KEY heroku container:push -a jaykoo/$HEROKU_APP_NAME --recursive
-              HEROKU_API_KEY=$HEROKU_API_KEY heroku container:release -a jaykoo/$HEROKU_APP_NAME web
+              HEROKU_API_KEY=$HEROKU_API_KEY heroku container:push -a $HEROKU_APP_NAME --recursive
+              HEROKU_API_KEY=$HEROKU_API_KEY heroku container:release -a $HEROKU_APP_NAME web
 
 
 workflows:
