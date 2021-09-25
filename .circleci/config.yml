@@ -38,7 +38,7 @@ jobs:
           command: |
             TAG=${CIRCLE_SHA1:0:10}
             docker build -t jaykoo/${HEROKU_APP_NAME}:$TAG:$TAG .
-            echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
+            echo $DOCKER_HUB_PASSWORD | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
             docker push jaykoo/${HEROKU_APP_NAME}:$TAG
   
   deploy-dev:
