@@ -45,6 +45,7 @@ jobs:
           name: Deploy
           command: |
             heroku container:login
+            heroku apps
             heroku container:push web -a {$HEROKU_APP_NAME} --recursive
             heroku container:release web -a {$HEROKU_APP_NAME}
         
