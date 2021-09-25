@@ -45,8 +45,8 @@ jobs:
           name: Deploy
           command: |
             heroku container:login
-            heroku container:push web
-            heroku container:release web
+            heroku container:push web -a {$HEROKU_APP_NAME}
+            heroku container:release web {$HEROKU_APP_NAME}
         
 workflows:
   heroku_deploy:
