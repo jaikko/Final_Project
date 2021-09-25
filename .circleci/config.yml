@@ -50,6 +50,8 @@ jobs:
             echo $DOCKER_HUB_PASSWORD | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
             docker pull jaykoo/${HEROKU_APP_NAME}:${CIRCLE_SHA1:0:10}
             heroku container:login
+            heroku run python manage.py makemigrations
+            heroku run python manage.py migrate
             docker tag jaykoo/${HEROKU_APP_NAME}:${CIRCLE_SHA1:0:10} registry.heroku.com/${HEROKU_APP_NAME}/web
             docker push registry.heroku.com/${HEROKU_APP_NAME}/web
             heroku container:release web -a ${HEROKU_APP_NAME}
