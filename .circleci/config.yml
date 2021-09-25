@@ -42,7 +42,8 @@ jobs:
             docker push jaykoo/${HEROKU_APP_NAME}:$TAG
   
   deploy-dev:
-    machine: true
+    docker:
+      - image: circleci/python:3.6
     steps:
         - checkout
         - setup_remote_docker
@@ -52,6 +53,7 @@ jobs:
               sudo curl https://cli-assets.heroku.com/install.sh | sh
               heroku container:login
               echo $DOCKER_HUB_PASSWORD | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
+              docker image ls
               heroku auth:token
               heroku container:push -a jaykoo/${HEROKU_APP_NAME} web --recursive
               HEROKU_API_KEY=$HEROKU_API_KEY heroku container:release -a jaykoo/${HEROKU_APP_NAME] web
