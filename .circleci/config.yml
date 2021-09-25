@@ -41,21 +41,7 @@ jobs:
             echo $DOCKER_HUB_PASSWORD | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
             docker push jaykoo/${HEROKU_APP_NAME}:$TAG
   
-  deploy-dev:
-    docker:
-      - image: circleci/python:3.6
-    steps:
-        - checkout
-        - setup_remote_docker
-        - run:
-            name: Build and push Docker image to Heroku
-            command: |
-              wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
-              heroku container:login
-              heroku authorizations:create
-              echo $DOCKER_HUB_PASSWORD | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
-              heroku container:push -a jaykoo/${HEROKU_APP_NAME}:${CIRCLE_SHA1:0:10} web --recursive
-              heroku container:release -a ${HEROKU_APP_NAME] web
+  
 
 
 workflows:
@@ -65,16 +51,16 @@ workflows:
       - build_and_push:
           requires:
             - test
-      - deploy-dev:
-          requires:
-            - build_and_push
+      # - deploy-dev:
+      #     requires:
+      #       - build_and_push
 
           # filters:
           #   branches:
           #     only: master
-      # - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
-      #     requires:
-      #       - build_and_push
+      - heroku/deploy-via-git: # Use the pre-configured job, deploy-via-git
+          requires:
+            - build_and_push
           # filters:
           #   branches:
           #     only: master
