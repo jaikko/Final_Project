@@ -44,14 +44,18 @@ jobs:
   deploy-dev:
       docker:
       - image: circleci/python:3.6
+      api_key:
+      secure: ENCRYPTED-PW
+      app: jaykoo/${HEROKU_APP_NAME}
       steps:
         - checkout
         - setup_remote_docker
         - heroku/install
+        
         - run:
             name: Build and push Docker image to Heroku
             command: |
-            
+
               echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
               heroku builds:cache:purge -a jaykoo/${HEROKU_APP_NAME}
               heroku container:login
