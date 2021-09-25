@@ -50,7 +50,7 @@ jobs:
         - run:
             name: Build and push Docker image to Heroku
             command: |
-              sudo dockerd
+              docker ps
               echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
               heroku container:login
               heroku apps
