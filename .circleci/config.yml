@@ -1,7 +1,5 @@
 version: 2.1
 
-
-
 jobs:
   test:
     docker:
@@ -55,7 +53,6 @@ jobs:
             docker tag jaykoo/${HEROKU_APP_NAME}:${CIRCLE_SHA1:0:10} registry.heroku.com/${HEROKU_APP_NAME}/web
             docker push registry.heroku.com/${HEROKU_APP_NAME}/web
             heroku container:release web -a ${HEROKU_APP_NAME}
-            heroku run rake db:migrate
             
 workflows:
   heroku_deploy:
