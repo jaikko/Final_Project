@@ -53,7 +53,6 @@ jobs:
               sudo curl https://cli-assets.heroku.com/install.sh | sh
               heroku container:login
               echo $DOCKER_HUB_PASSWORD | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
-              docker pull jaykoo/${HEROKU_APP_NAME}:${CIRCLE_SHA1:0:10}
               heroku container:push -a jaykoo/${HEROKU_APP_NAME}:${CIRCLE_SHA1:0:10} web --recursive
               heroku container:release -a ${HEROKU_APP_NAME] web
 
