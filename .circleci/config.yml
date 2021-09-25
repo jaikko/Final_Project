@@ -45,11 +45,8 @@ jobs:
           name: Deploy
           command: |
             heroku container:login
-            heroku apps
-            git init
-            heroku git:remote -a {$HEROKU_APP_NAME} 
-            heroku container:push web -a {$HEROKU_APP_NAME} --recursive
-            heroku container:release web -a {$HEROKU_APP_NAME}
+            heroku container:push web -a ${HEROKU_APP_NAME} --recursive
+            heroku container:release web -a ${HEROKU_APP_NAME}
         
 workflows:
   heroku_deploy:
