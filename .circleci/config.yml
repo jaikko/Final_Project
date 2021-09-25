@@ -50,9 +50,10 @@ jobs:
             command: |
               sudo curl https://cli-assets.heroku.com/install.sh | sh
               heroku container:login
+              docker image ls
               heroku auth:token
-              heroku container:push -a $HEROKU_APP_NAME --recursive
-              HEROKU_API_KEY=$HEROKU_API_KEY heroku container:release -a jaykoo/$HEROKU_APP_NAME web
+              heroku container:push -a jaykoo/${HEROKU_APP_NAME} --recursive
+              HEROKU_API_KEY=$HEROKU_API_KEY heroku container:release -a jaykoo/${HEROKU_APP_NAME] web
 
 
 workflows:
