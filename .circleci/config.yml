@@ -45,7 +45,7 @@ jobs:
           name: Deploy
           command: |
             heroku container:login
-            heroku create --app ${HEROKU_APP_NAME}
+            heroku create 
             heroku container:push web --app ${HEROKU_APP_NAME}
             
         
