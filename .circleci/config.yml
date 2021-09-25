@@ -47,7 +47,7 @@ jobs:
             heroku container:login
             heroku create
             heroku apps:rename $HEROKU_APP_NAME
-            heroku container:push web --app ${HEROKU_APP_NAME}
+            heroku container:push web --app $HEROKU_APP_NAME
             
         
 workflows:
