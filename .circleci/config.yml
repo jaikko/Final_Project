@@ -50,7 +50,7 @@ jobs:
             name: Build and push Docker image to Heroku
             command: |
               HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
-              HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a jaykko/${HEROKU_APP_NAME} --recursive
+              HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a jaykoo/${HEROKU_APP_NAME} --recursive
               HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a jaykoo/${HEROKU_APP_NAME} web
 
 
