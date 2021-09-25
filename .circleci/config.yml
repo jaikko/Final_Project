@@ -47,7 +47,6 @@ jobs:
             command: |
             
               sudo curl https://cli-assets.heroku.com/install.sh | sh
-              heroku repo:purge_cache -a jaykoo/${HEROKU_APP_NAME}
               HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
               HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a jaykko/${HEROKU_APP_NAME} --recursive
               HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a jaykoo/${HEROKU_APP_NAME} web
