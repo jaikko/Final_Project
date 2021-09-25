@@ -37,7 +37,7 @@ jobs:
           name: Build and push Docker image
           command: |
             TAG=${CIRCLE_SHA1:0:10}
-            docker build -t jaykoo/${HEROKU_APP_NAME}:$TAG:$TAG .
+            docker build -t jaykoo/${HEROKU_APP_NAME}:$TAG .
             echo $DOCKER_HUB_PASSWORD | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
             docker push jaykoo/${HEROKU_APP_NAME}:$TAG
   
