@@ -37,19 +37,23 @@ jobs:
           name: Build and push Docker image
           command: |
             TAG=${CIRCLE_SHA1:0:10}
-            docker build -t jaykoo/final_app:$TAG .
+            docker build -t jaykoo/${HEROKU_APP_NAME}:$TAG .
             echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
             docker push jaykoo/final_app:$TAG
-      - heroku/install
-      - run:
-          name: Deploy
-          command: |
-            docker ps
-            heroku container:login
-            git remote add docker https://git.heroku.com/$HEROKU_APP_NAME.git
-            heroku container:push web
-            heroku container:release web
       
+  deploy-dev:
+      machine: true
+      steps:
+        - checkout
+        - heroku/install
+        - run:
+            name: Build and push Docker image to Heroku
+            command: |
+              sudo curl https://cli-assets.heroku.com/install.sh | sh
+              HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
+              HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a ${HEROKU_APP_NAME}
+              HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a ${HEROKU_APP_NAME} web
+
 
 workflows:
   heroku_deploy:
@@ -58,6 +62,10 @@ workflows:
       - build_and_push:
           requires:
             - test
+      - deploy-dev:
+          requires:
+            - build_and_push
+
           # filters:
           #   branches:
           #     only: master
