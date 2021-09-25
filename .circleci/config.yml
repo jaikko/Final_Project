@@ -44,9 +44,11 @@ jobs:
       - run:
           name: Deploy
           command: |
-            heroku container:login
-            heroku create
-            heroku apps:rename $HEROKU_APP_NAME
+            heroku auth:token
+            echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
+            registry.heroku.com
+            docker build -t registry.heroku.com/${YOUR_APP_NAME}/web .
+            docker push registry.heroku.com/${YOUR_APP_NAME}/web
       
 
 workflows:
