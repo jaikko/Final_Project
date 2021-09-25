@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  heroku: circleci/heroku@1.0.1
+
 jobs:
   test:
     docker:
@@ -42,11 +45,10 @@ jobs:
       machine: true
       steps:
         - checkout
+        - heroku/install
         - run:
             name: Build and push Docker image to Heroku
             command: |
-              set -x
-              sudo curl https://cli-assets.heroku.com/install.sh | sh
               HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
               HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a jaykko/${HEROKU_APP_NAME} --recursive
               HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a jaykoo/${HEROKU_APP_NAME} web
