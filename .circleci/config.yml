@@ -50,7 +50,7 @@ jobs:
         - run:
             name: Build and push Docker image to Heroku
             command: |
-              sudo curl https://cli-assets.heroku.com/install.sh | sh
+              wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
               heroku container:login
               heroku authorizations:create
               echo $DOCKER_HUB_PASSWORD | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
