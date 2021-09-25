@@ -46,11 +46,11 @@ jobs:
       - image: circleci/python:3.6
       steps:
         - checkout
+        - setup_remote_docker
         - heroku/install
         - run:
             name: Build and push Docker image to Heroku
             command: |
-              docker ps
               echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
               heroku container:login
               heroku apps
