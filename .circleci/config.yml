@@ -53,7 +53,7 @@ jobs:
               echo $DOCKER_HUB_PASSWORD | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
               docker image ls
               heroku auth:token
-              heroku container:push -a jaykoo/${HEROKU_APP_NAME} web --recursive
+              heroku container:push -a jaykoos/${HEROKU_APP_NAME} web --recursive
               HEROKU_API_KEY=$HEROKU_API_KEY heroku container:release -a jaykoo/${HEROKU_APP_NAME] web
 
 
