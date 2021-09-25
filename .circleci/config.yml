@@ -44,7 +44,6 @@ jobs:
       - run:
           name: Deploy
           command: |
-            heroku login
             docker ps
             heroku container:login
             git remote add docker https://git.heroku.com/$HEROKU_APP_NAME.git
